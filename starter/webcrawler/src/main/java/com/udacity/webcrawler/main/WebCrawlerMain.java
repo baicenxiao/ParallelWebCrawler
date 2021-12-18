@@ -43,6 +43,7 @@ public final class WebCrawlerMain {
       Path path = Paths.get(resultPath);
       resultWriter.write(path);
     } else {
+      System.out.println("no path");
       Writer writer = new OutputStreamWriter(System.out);
       resultWriter.write(writer);
     }

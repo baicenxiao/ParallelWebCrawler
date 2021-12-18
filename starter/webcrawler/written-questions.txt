@@ -10,6 +10,7 @@ Q1. Run the web crawler using the configurations located at src/main/config/writ
     the ParallelWebCrawler.
 
     Why did the parser take more time when run with ParallelWebCrawler?
+Answer: since the parser parses more urls when run with ParallelWebcrawler.
 
 
 Q2. Your manager ran your crawler on her old personal computer, using the configurations from Q1, and she notices that
@@ -17,17 +18,20 @@ Q2. Your manager ran your crawler on her old personal computer, using the config
 
     (a) Suggest one reason why the sequential web crawler was able to read more web pages than the parallel crawler.
         (Hint: Try setting "parallelism" to 1 in the JSON configs to simulate your manager's computer.)
+Answer: Synchronization in parallel crawler is required to avoid visiting the same Url and hence requires more time, and the synchronization cost cannot be offset when there is just one thread available.
 
     (b) Suggest one scenario in which the parallel web crawler will almost certainly perform better than the sequential
         crawler. Why will it perform better?
+Answer: when setting longer timeout or larger maxDepth, parallel web crawler can do better since it can take advantage of more computational resources.
 
 
 Q3. Analyze your method profiler through the lens of Aspect Oriented Programming, by answering the following questions:
 
     (a) What cross-cutting concern is being addressed by the com.udacity.webcrawler.profiler.Profiler class?
+Answer: performance profiling which affects more than one parts of the system (e.g., crawler and parser) is being addressed.
 
     (b) What are the join points of the Profiler in the web crawler program?
-
+Answer: join points could be the place calling Webcrawler.crawl() and Parser.parse()
 
 Q4. Identify three (3) different design patterns used in this project, and explain which interfaces, classes, and/or
     libraries use or implement those design patterns.
@@ -35,4 +39,13 @@ Q4. Identify three (3) different design patterns used in this project, and expla
     For each pattern, name one thing about the pattern that you LIKED, and one thing you DISLIKED. If you did not like
     anything, you can name two things you disliked.
 
+Answer: 1. Strategy pattern is used in WebCrawlerModule.java (Multibinder provides a way to implement the strategy pattern through dependency injection).
+            like: switch parallel and sequential crawler without changing the interface
+            dislike: complex, drive me crazy
+        2. Builder pattern is used in CrawlerConfiguration class
+            like: make object building process clear
+            dislike: still, need to write longer code
+        3. Singleton pattern is used ProfilerModule class to make sure there is only one profiler object.
+            like: we can be sure that only 1 object of profiler is used
+            dislike: seems like there is nothing I dislike about this pattern
 
