@@ -105,11 +105,12 @@ final class ParallelWebCrawler implements WebCrawler {
 
       PageParser.Result result = parserFactory.get(url).parse();
       for (ConcurrentMap.Entry<String, Integer> e : result.getWordCounts().entrySet()) {
-        if (counts.containsKey(e.getKey())) {
-          counts.put(e.getKey(), e.getValue() + counts.get(e.getKey()));
-        } else {
-          counts.put(e.getKey(), e.getValue());
-        }
+//        if (counts.containsKey(e.getKey())) {
+//          counts.put(e.getKey(), e.getValue() + counts.get(e.getKey()));
+//        } else {
+//          counts.put(e.getKey(), e.getValue());
+//        }
+        counts.compute(e.getKey(), (k, v) -> (v==null)?e.getValue():e.getValue()+v);
       }
       List<InternalCrawler> subtasks= new ArrayList<>();
       for (String link : result.getLinks()) {
